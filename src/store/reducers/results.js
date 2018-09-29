@@ -1,20 +1,21 @@
+import {updateObject} from '../utility';
+
 const initialState = {
     results : []
+}
+
+const deleteResult = (state, action) => {
+    const updatedArray = state.results.filter((result) => result.id !== action.id);
+    return updateObject(state,{results : updatedArray});
 }
 
 const reducer = (state = initialState, action) => {
     
     switch(action.type){
         case ('STORE_RESULT'):
-            return {
-                ...state,
-                results : state.results.concat({id : new Date() ,value : action.result})
-            }  
+            return updateObject(state, {results : state.results.concat({id : new Date() ,value : action.result})}) 
         case('DELETE_RESULT'):
-            return {
-                ...state,
-                results : state.results.filter((result) => result.id !== action.id)
-            }     
+            return deleteResult(state,action)
         }
     return state;
 }
